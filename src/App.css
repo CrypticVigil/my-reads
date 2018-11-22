@@ -13,15 +13,18 @@ body, .app {
 /* main page */
 
 .list-books-title {
-  padding: 10px 0;
-  background: #2e7c31;
-  text-align: center;
+  padding: 5px 0 5px 20px;
+  background-image: linear-gradient(to right, #154360, #0B2230);
 }
 
 .list-books-title h1 {
-  font-weight: 400;
+  font-weight: 600;
   margin: 0;
   color: white;
+}
+
+.title-right {
+  color: #F5B041;
 }
 
 .list-books-content {
