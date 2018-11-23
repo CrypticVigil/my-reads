@@ -15,6 +15,24 @@ class BooksApp extends React.Component {
 		.then( books => { this.setState({ books }) })
 	}
 
+	changeShelf = (book, shelf) => {
+		BooksAPI.update(book, shelf).then( () => {
+			const books = this.state.books.map( newBook => {
+				if (newBook.id === book.id) {
+					newBook.shelf = shelf;
+				};
+				return newBook;
+			});
+
+			if (books.filter( newBook => newBook.id === book.id ).length === 0) {
+				book.shelf = shelf;
+				books.push(book);
+			}
+
+			this.setState({ books });
+		});
+	}
+
 	render() {
 		return (
 			<div className="app">
@@ -32,7 +50,7 @@ class BooksApp extends React.Component {
 									<ol className="books-grid">
 										{this.state.books.filter( (book) => book.shelf === 'currentlyReading')
 										.map( (book) => 
-											<Book current={book} key={book.id} /> 
+											<Book book={book} changeShelf={this.changeShelf} key={book.id} /> 
 										)}
 									</ol>
 								</div>
@@ -43,7 +61,7 @@ class BooksApp extends React.Component {
 									<ol className="books-grid">
 									{this.state.books.filter( (book) => book.shelf === 'wantToRead')
 										.map( (book) => 
-											<Book current={book} key={book.id} /> 
+											<Book book={book} changeShelf={this.changeShelf} key={book.id} /> 
 										)}
 									</ol>
 								</div>
@@ -54,7 +72,7 @@ class BooksApp extends React.Component {
 									<ol className="books-grid">
 										{this.state.books.filter( (book) => book.shelf === 'read')
 											.map( (book) => 
-												<Book current={book} key={book.id} /> 
+												<Book book={book} changeShelf={this.changeShelf} key={book.id}/> 
 										)}
 									</ol>
 								</div>
@@ -69,7 +87,7 @@ class BooksApp extends React.Component {
 			)} />
 
 			<Route path='/search' render={ () => (
-				<Search />	
+				<Search changeShelf={this.changeShelf} />	
 			)} />
 			</div>
 		)
