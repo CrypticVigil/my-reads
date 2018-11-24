@@ -24,7 +24,14 @@ class Search extends Component {
 	}
 
 	render() {
-		// const book = this.props.current;
+		const setBook = (book) => {
+			for (const b of this.props.booksList) {
+				if (b.id === book.id) {
+					book.shelf = b.shelf;
+				}
+			}
+			return <Book book={book} changeShelf={this.props.changeShelf} key={book.id} />
+		}
 
 		return (
 			<div className="search-books">
@@ -42,8 +49,19 @@ class Search extends Component {
 				<div className="search-books-results">
 					<ol className="books-grid">
 						{this.state.booksFound ? (
-							this.state.books.map( (book) => 
-							<Book book={book} changeShelf={this.props.changeShelf} key={book.id} /> )
+							this.state.books.map(setBook)
+							// this.state.books.map( (book) => 
+								// for (const b in this.props.booksList) {
+								// 	if (b.id === book.id) {
+								// 		book.shelf = b.shelf;
+								// 	}
+								// }
+								// <Book
+								// 	book={book}
+								// 	changeShelf={this.props.changeShelf}
+								// 	key={book.id}
+								// /> )
+							
 						) : (
 							<div>No books found.</div>
 						)}
